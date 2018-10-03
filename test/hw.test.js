@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // helloworld from mocha site
 
 var assert = require('assert')
