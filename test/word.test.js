@@ -5,32 +5,32 @@ var word = rewire('../core/graph/word.js')
 
 function splitInPhrasesTest () {
   let tested = word.__get__('splitInPhrases')
-  let result = tested('The cat, is on the table. You know it is!')
+  let result = tested('The cat is on the table. You know it is!')
 
   result.should.be.a('array').with.lengthOf(2)
-  result[0].should.equal('The cat, is on the table')
+  result[0].should.equal('The cat is on the table')
   result[1].should.equal('You know it is!')
 }
 
 function splitInWordsTest () {
   let tested = word.__get__('splitInWords')
-  let result = tested('The cat, is on the table')
+  let result = tested('The cat is on the table')
 
   result.should.be.a('array').with.lengthOf(6)
-  result[1].should.equal('cat,')
+  result[1].should.equal('cat')
   result[5].should.equal('table')
 }
 
-var Graph = require('../core/graph/graph');
-var graph = new Graph();
+function stripModTest () {
+  let tested = word.__get__('stripModifier')
+  let result = tested('cat,')
 
-function addToGraphTest () {
-  let tested = word.__get__('addToGraph')
-  let result = tested(graph, ['The', 'cat,', 'is', 'on', 'the', 'table'], 1)
+  result[0].should.equal('cat')
+  result[1].should.equal(',')
 
-  console.log(graph)
-  // TODO
-
+  result = tested('cat')
+  result[0].should.equal('cat')
+  result[1].should.equal('')
 }
 
 describe('Word', function () {
@@ -43,7 +43,8 @@ describe('Word', function () {
     it('should split input string clob into words', splitInWordsTest)
   })
 
-  describe('#addToGraph(graph, words, whichWord)', function () {
-    it('should add the word into the graph, creating the node and the vertexes', addToGraphTest)
+  describe('#stripModifier(word)', function () {
+    it('should strip punctuation out of the word', stripModTest)
   })
+
 })
